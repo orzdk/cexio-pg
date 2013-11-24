@@ -1,0 +1,121 @@
+.tickertextbox{
+	height: 10px!important; 
+	font: courier!important; 
+	font-size: 10px!important;
+	font-weight: bold!important;
+	width: 100%!important;
+	background: #00BECA!important;
+    border: 2px double #212E3F!important; 
+    border-radius: 5px!important; 
+    border-color: #212E3F!important; 
+    box-shadow: 0 0 5px #333!important; 
+    color: #000!important; 
+    outline: none!important; 
+    height:15px!important; 
+	
+	outline: none!important; 
+	background: -webkit-gradient(linear, left top, left bottom, from(#BCBCBE), to(#FFF))!important; 
+	background: -moz-linear-gradient(top, #BCBCBE, #FFF)!important; 
+	-webkit-border-radius: 3px!important; 
+	-moz-border-radius: 3px!important; 
+	border-radius: 3px!important; 
+	border: 1px solid #717171!important; 
+	-webkit-box-shadow: 1px 1px 0px #EFEFEF!important;
+	-moz-box-shadow: 1px 1px 0px #efefef!important;
+	box-shadow: 1px 1px 0px #EFEFEF!important;
+
+}
+
+.alarmtype{
+	border-style:solid; border-color:black;border-width:1px;width:75%
+}
+
+.ghost{
+	display:none
+}
+
+.navbar .brand {
+    max-height: 40px;
+    overflow: visible;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.navbarx,.navbar-innerx,.containerx, .navbarx li, .navbarx ul{ height: 75px;}
+
+.importantRule { z-index:9999999!important; background-color:#333311}
+
+.alarmtext{
+	height: 20px!important; font: courier!important; font-size: 9px!important;
+	width: 100px!important; 
+}
+
+.alarmtext_b{
+	height: 20px!important; font: courier!important; font-size: 9px!important;
+	width: 45px;background-color: #aaaaaa!important
+}
+
+.alarmtext_c{
+	height: 10px!important; font: courier!important; font-size: 9px!important;
+	width: 100px!important; background-color: #aaffaa!important
+}
+
+.alarmtext_d{
+	height: 10px!important; font: courier!important; font-size: 9px!important;
+	width: 45px;background-color: #aaffaa!important
+}
+
+#selectable  .ui-selecting { background: #A3A2B1; }
+#selectable2 .ui-selecting { background: #A3A2B1; }
+
+#selectable .ui-selected { background: #0898A6; color: white; }
+#selectable2 .ui-selected { background: #0898A6; color: white; }
+
+#selectable  { list-style-type: none; margin: 0; padding: 0; width: 100%; }
+#selectable2 { list-style-type: none; margin: 0; padding: 0; width: 100%; }
+
+#selectable li { margin: 3px; padding: 1px; float: left; width: 45px; height: 30px; font-size: 12px; text-align: center; }
+#selectable2 li { margin: 3px; padding: 1px; float: left; width: 45px; height: 30px; font-size: 12px; text-align: center; } 
+
+
+/* Sidebar Menu Fix */
+.sidebar .navbar-nav {
+margin: 7.5px -15px;
+}
+.sidebar .navbar-nav > li > a {
+padding-top: 10px;
+padding-bottom: 10px;
+line-height: 20px;
+}
+.sidebar .navbar-collapse {
+  max-height: 500px;
+}
+.sidebar .navbar-nav .open .dropdown-menu {
+position: static;
+float: none;
+width: auto;
+margin-top: 0;
+background-color: transparent;
+border: 0;
+box-shadow: none;
+}
+.sidebar .dropdown-menu > li > a {
+color:#777777;
+}
+.sidebar .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
+.sidebar .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+    color: #333333;
+    background-color: transparent;
+}
+.sidebar .navbar-default .navbar-nav .open .dropdown-menu > .active > a,
+.sidebar .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
+.sidebar .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
+    color: #555555;
+    background-color: #e7e7e7;
+}
+.sidebar .navbar-nav {
+float: none;
+}
+.sidebar .navbar-nav > li {
+float: none;
+}

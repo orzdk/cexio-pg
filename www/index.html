@@ -1,42 +1,219 @@
 <!DOCTYPE html>
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
 <html>
     <head>
         <meta charset="utf-8" />
         <meta name="format-detection" content="telephone=no" />
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+		<title>CEX.IO Mobile</title>
+		
+		<script src="phonegap.js"></script> 
+		<script src="lib/jquery-1.8.2.min.js"></script> 
+		<script src="lib/jquery-ui.js"></script>
+		<script src="js/rijndael.js"></script> 
+		<script src="js/hmac-sha256.js"></script> 
+		<script src="lib/bootstrap.js"></script> 
+		<script src="lib/underscore-min.js"></script> 
+		
+
         <link rel="stylesheet" type="text/css" href="css/index.css" />
-        <title>Hello World2</title>
+		<link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.3.2.css" />
+		<link rel="stylesheet" type="text/css" href="css/app.css" />
+		<link rel="stylesheet" type="text/css" href="css/br.css" />
+		<link rel="stylesheet" type="text/css" href="css/jquery-ui.css" />				
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<link rel="stylesheet" type="text/css" href="css/last.css" />
+		
+		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:300,400,600,700,800">
+		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:100,300,400,600,700,800">
+		
+		<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+
+		<script src="lib/handlebars.js"></script>
+				
+		<!-- <script type="text/javascript" src="cordova.js"></script> -->
+	
     </head>
-    <body>
-        <div class="app">
-            <h1>PhoneGap</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
-            </div>
-        </div>
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript">
-            app.initialize();
-        </script>
-    </body>
+	
+<body style="margin:1px!important" >
+
+<div id="topnavcontainer" class="topnavcontainer" style=" background-color:#dddddd">
+	<div class="navbar">
+	<div class="navbar-inner">
+	<div class="container">
+		<button type="button" class="btn btn-link nav-toggle hidden-desktop" data-toggle="collapse" data-target=".nav-collapse">
+		<!-- <i class="icn-list icon-xlarge text-default"></i> -->
+		<img src="img/cex.svg">
+		</button>
+		<div class="nav-collapse collapse">
+			<ul class="nav">			
+				
+				<li class="active"><a href="#"><img src="img/cex.svg" style="height:30px;margin-bottom:5px"></a></li>				
+				
+					<li><a style="width:115px!important" href="#openorders" class="nav-ref"><i aria-hidden="true" data-icon="&#x37;" class="icn icn-ref"></i>Open Orders</a></li>
+				
+					<li><a href="#alarm" class="nav-redeem"><i aria-hidden="true" data-icon="&#x37;" class="icn icn-redeem"></i>Alarms</a></li>
+								
+					<li><a href="#main" class="nav-redeem"><i aria-hidden="true" data-icon="&#x37;" class="icn icn-redeem"></i>Buy/Sell Lists</a></li>
+				
+					<li class="active"><a href="#setup"><i aria-hidden="true" data-icon="&#x37;" class="icn icn-trade"></i>Setup</a></li>
+				
+					<li><a href="#pin"><i aria-hidden="true" data-icon="&#x37;" class="icn icn-wallet"></i>Unlock</a></li>
+					
+				
+			</ul>
+		</div>
+	</div>
+	</div>
+	</div>
+</div>
+
+<div id="tickercontainer" style="height:20px; background-color:#000000;margin:0px">
+<table style="width:100%;margin:0px"><tr>
+	<td><input class="tickertextbox" type="text" id="tickerlast">
+	<td><input class="tickertextbox" type="text" id="tickerhigh">
+	<td><input class="tickertextbox" type="text" id="tickerlow">
+	<td><input class="tickertextbox" type="text" id="tickerbid">
+	<td><input class="tickertextbox" type="text" id="tickerask">
+	<td><input class="tickertextbox" type="text" id="balanceghs">
+	<td><input class="tickertextbox" type="text" id="balancebtc">
+</tr></table>
+</div>
+
+<div id="cexiopagecontainer" class="cexiopagecontainer" style="margin-top:5px"></div>
+
+<script id="tpl-cexio-splash" type="text/x-handlebars-template">
+	<a href='#main'><img src='img/cexio.jpg'></a>
+</script>	
+
+<script id="tpl-cexio-openorders" type="text/x-handlebars-template">
+	<h3>My Open Orders</h3>
+	<a id="refreshown" href="#openorders">Refresh</a>
+	<div style="overflow-y:scroll; height: 408px;">
+	<table id="md-own" class="table table-bordered">
+		<thead style="font-size:12px;font-weight:bold;height:10px">
+		<th>Type</th>
+		<th>Price</th>
+		<th>Amount</th>
+		<th>Pending</th>
+		<th></th>
+		</thead>
+	</table>
+	</div>
+</script>
+
+<script id="tpl-cexio-pin" type="text/x-handlebars-template">
+	<h3>Enter Pin</h3>
+	<table><tr>
+	<td><input type="text" id="pinchar1" style="width:30px">
+	<td><input type="text" id="pinchar2" style="width:30px">
+	<td><input type="text" id="pinchar3" style="width:30px">
+	<td><input type="text" id="pinchar4" style="width:30px">
+	</table>
+	<table>
+	<tr><td><input class="phonekey" type="button" value="1"><td><input class="phonekey" type="button" value="2"><td><input class="phonekey" type="button" value="3">
+	<tr><td><input class="phonekey" type="button" value="4"><td><input class="phonekey" type="button" value="5"><td><input class="phonekey" type="button" value="6">
+	<tr><td><input class="phonekey" type="button" value="7"><td><input class="phonekey" type="button" value="8"><td><input class="phonekey" type="button" value="9">
+	<tr><td><input class="phonekey" type="button" value="0"><td colspan=2><input class="phonekey" type="button" value="Clear">
+	</table>
+</script>	
+  
+<script id="tpl-cexio-alarm" type="text/x-handlebars-template">
+	<h3>New Alarm Configuration</h3>
+	<div style="width:100%">
+	<ol id="selectable">
+	  <li class="ui-state-default">last</li>
+	  <li class="ui-state-default">high</li>
+	  <li class="ui-state-default">low</li>
+	  <li class="ui-state-default">bid</li>
+	  <li class="ui-state-default">ask</li>
+	</ol> 
+	</div>
+	<div>
+	<div>
+	<ol id="selectable2">
+	  <li class="ui-state-default">>=</li>
+	  <li class="ui-state-default"><=</li>
+	</ol>
+	</div> 
+	<input type="text" id="thres" placeholder="Threshold" class="alarmtext" style="margin-top:2px">
+	<input type="button" value="Create Alarm" id="createalarm" class="btn btn-small" style="margin-bottom:4px">
+	<input type="button" value="Remove All Alarms" id="removeallalarms" class="btn btn-small" style="margin-bottom:4px">
+	
+	<div style="margin:3px"><h3>My Alarms</h3>
+	<table id="md-alarm" class="table table-bordered">
+		<thead style="font-size:12px;font-weight:bold;height:10px">
+		<th>Type</span></th>
+		<th>Operator</th>
+		<th>Value</th>
+		<th>Remove</th>
+		</thead>
+	</table>		
+	</div>
+	<input type="hidden" style="visibility:hidden" id="selectedalarmtype">
+	<input type="hidden" style="visibility:hidden" id="selectedalarmoperator">
+	</div>
+</script>
+	
+<script id="tpl-cexio-setup" type="text/x-handlebars-template">
+<h3> Enter your API Details <i aria-hidden="true" data-icon="&#x37;" class="icn icn-wallet"> </h3>
+<div class="ui-grid-c">
+	<div class="ui-block-a">
+		<table>
+		<tr><td>User Name <tr><td><input type="text" id="username">
+		<tr><td>API Key <tr><td><input type="text" id="apikey">
+		<tr><td>API Secret <tr><td><input type="text" id="apisecret">
+		<tr><td>New Pincode <tr><td><input type="text" id="pincode">
+		<tr><td><input type="button" value="save" id="savekeys" class="btn btn-small btn-white active">
+		</table>
+	</div>
+	<div class="ui-block-b"></div>
+	<div class="ui-block-c"></div>
+</div>
+
+</script>
+
+<script id="tpl-cexio-main" type="text/x-handlebars-template">
+	<h3> Buy / Sell Lists </h3>
+	<a id="refreshf" href="#main">Refresh</a>	
+	<div class="ui-grid-a">
+		<div class="ui-block-a">
+			<div style="overflow-y:scroll; height: 408px;">
+			<table id="md-buy" class="table table-bordered">
+				<thead style="font-size:12px;font-weight:bold;height:10px">
+				<th>Price per GHS</span></th>
+				<th>GHS Amount</th>
+				<th>Total: (BTC)</th>
+				</thead>
+			</table>
+			</div>
+		</div>
+		<div class="ui-block-b">
+			<div style="overflow-y:scroll; height: 408px;">
+			<table id="md-sell" class="table table-bordered">
+				<thead style="font-size:12px;font-weight:bold;height:10px">
+				<th>Price per GHS</span></th>
+				<th>GHS Amount</th>
+				<th>Total: (BTC)</th>
+				</thead>
+			</table>
+			</div>
+		</div>
+	</div>
+	
+</script>	
+		
+<script type="text/javascript" src="js/notificationbar-android.js"></script>
+<script type="text/javascript" src="js/ls-store.js"></script>
+<script type="text/javascript" src="js/cexiosplash.js"></script>
+<script type="text/javascript" src="js/mainview.js"></script>
+<script type="text/javascript" src="js/pinview.js"></script>
+<script type="text/javascript" src="js/openordersview.js"></script>
+<script type="text/javascript" src="js/alarmview.js"></script>
+<script type="text/javascript" src="js/setupview.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+	
+</body>			
 </html>
