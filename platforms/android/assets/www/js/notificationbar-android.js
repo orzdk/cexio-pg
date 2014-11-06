@@ -9,8 +9,8 @@ function appReady() {
 
       plugins.localNotification.add({
         date : now,
-        message : "Phonegap - Boooyyyaaaaah!\r\nUpyoass!",
-        ticker : "Yeeeaaaaahhhh!!!",
+        message : "Phonegap",
+        ticker : "Y",
         repeatDaily : false,
         id : 4
       });
